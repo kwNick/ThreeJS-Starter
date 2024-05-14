@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
-
+import { VRButton } from 'three/addons/webxr/VRButton.js';
 
 if (WebGL.isWebGLAvailable()) {
 
@@ -12,7 +12,7 @@ if (WebGL.isWebGLAvailable()) {
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+    // document.body.appendChild(renderer.domElement);
 
     const geo = new THREE.BoxGeometry(1, 1, 1, 1);
     const material = new THREE.MeshBasicMaterial({ color: 0xff6ff8 });
@@ -29,14 +29,24 @@ if (WebGL.isWebGLAvailable()) {
 
     const geoLine = new THREE.BufferGeometry().setFromPoints(points);
     const line = new THREE.Line(geoLine, materialLine);
-    scene.add(line);
-    function animate() {
-        requestAnimationFrame(animate);
-        // cube.rotation.x += 0.05;
-        // cube.rotation.y += 0.03;
+    // scene.add(line);
+
+    document.body.appendChild(VRButton.createButton(renderer));
+    renderer.xr.enabled = true;
+
+    // function animate() {
+    //     requestAnimationFrame(animate);
+    //     // cube.rotation.x += 0.05;
+    //     // cube.rotation.y += 0.03;
+    //     renderer.render(scene, camera);
+    // }
+    // animate();
+
+    renderer.setAnimationLoop(function () {
+
         renderer.render(scene, camera);
-    }
-    animate();
+
+    });
 
 } else {
 
